@@ -12,12 +12,12 @@ public class HumanGuessesGameTest {
         assertEquals(GuessResult.LOW, hgg.makeGuess(835));
         assertEquals(GuessResult.LOW, hgg.makeGuess(0));
         assertEquals(GuessResult.LOW, hgg.makeGuess(257));
-        assertEquals(GuessResult.LOW, hgg.makeGuess(-1));
+        assertEquals(GuessResult.LOW, hgg.makeGuess(-1)); //Should be exception
 
         assertEquals(GuessResult.HIGH, hgg.makeGuess(837));
         assertEquals(GuessResult.HIGH, hgg.makeGuess(1000));
         assertEquals(GuessResult.HIGH, hgg.makeGuess(897));
-        assertEquals(GuessResult.HIGH, hgg.makeGuess(1093820));
+        assertEquals(GuessResult.HIGH, hgg.makeGuess(1093820)); //Should be exception
 
         assertEquals(GuessResult.CORRECT, hgg.makeGuess(836));
     }
