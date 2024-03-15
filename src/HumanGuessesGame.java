@@ -23,6 +23,13 @@ public class HumanGuessesGame {
         gameIsDone = false;
     }
 
+    HumanGuessesGame(int testvalue)
+    {
+        this.target = testvalue;
+        numGuesses = 0;
+        gameIsDone = false;
+    }
+
     GuessResult makeGuess(int value){
         numGuesses += 1;
 
