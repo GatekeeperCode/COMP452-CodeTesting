@@ -69,16 +69,14 @@ public class GameOverPanel extends JPanel {
      * Sets the game results, updates the UI, and saves results to the log file (if human was playing)
      */
     // TODO: refactor this method
+    //Expect exception
+    //Check humanWasPlaying
     public void setGameResults(GameResult result){
         this.gameResult = result;
+        GameOverGame game = new GameOverGame();
 
         answerTxt.setText("The answer was " + result.correctValue + ".");
-        if(result.numGuesses == 1){
-            numGuessesTxt.setText((result.humanWasPlaying ? "You" : "I") + " guessed it on the first try!");
-        }
-        else {
-            numGuessesTxt.setText("It took " + (result.humanWasPlaying ? "you" : "me") + " " + result.numGuesses + " guesses.");
-        }
+        numGuessesTxt.setText(game.gameOverMessage(result.numGuesses, result.numGuesses==1, result.humanWasPlaying));
 
         if(result.humanWasPlaying){
             // write stats to file

@@ -17,6 +17,7 @@ public class StatsPanel extends JPanel {
     private static final int [] BIN_EDGES = {1, 2, 4, 6, 8, 10, 12, 14};
     private ArrayList<JLabel> resultsLabels;
 
+    //Long Method, Could be shortened
     public StatsPanel(JPanel cardsPanel) {
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -90,6 +91,7 @@ public class StatsPanel extends JPanel {
         }
     }
 
+    //Duplicate Code
     private void updateResultsPanel(){
         clearResults();
 

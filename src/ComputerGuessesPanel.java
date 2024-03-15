@@ -12,18 +12,14 @@ import java.util.function.Consumer;
  */
 public class ComputerGuessesPanel extends JPanel {
 
-    private int numGuesses;
+    private ComputerGuessesGame game;
     private int lastGuess;
-
-    // upperBound and lowerBound track the computer's knowledge about the correct number
-    // They are updated after each guess is made
-    private int upperBound; // correct number is <= upperBound
-    private int lowerBound; // correct number is >= lowerBound
+    private int numGuesses;
 
     public ComputerGuessesPanel(JPanel cardsPanel, Consumer<GameResult> gameFinishedCallback){
+
+        game = new ComputerGuessesGame();
         numGuesses = 0;
-        upperBound = 1000;
-        lowerBound = 1;
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -40,10 +36,8 @@ public class ComputerGuessesPanel extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0,10)));
 
         JButton lowerBtn = new JButton("Lower");
-        lowerBtn.addActionListener(e -> {
-            upperBound = Math.min(upperBound, lastGuess);
-
-            lastGuess = (lowerBound + upperBound + 1) / 2;
+        lowerBtn.addActionListener(e -> { //Make Seperte Method
+            lastGuess = game.higherGuess(lastGuess);
             numGuesses += 1;
             guessMessage.setText("I guess " + lastGuess + ".");
         });
@@ -67,10 +61,8 @@ public class ComputerGuessesPanel extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0,10)));
 
         JButton higherBtn = new JButton("Higher");
-        higherBtn.addActionListener(e -> {
-            lowerBound = Math.max(lowerBound, lastGuess + 1);
-
-            lastGuess = (lowerBound + upperBound + 1) / 2;
+        higherBtn.addActionListener(e -> {//Make Seperate Method
+            lastGuess = game.lowerGuess(lastGuess);
             numGuesses += 1;
             guessMessage.setText("I guess " + lastGuess + ".");
         });
@@ -80,14 +72,10 @@ public class ComputerGuessesPanel extends JPanel {
 
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent e) {
+                lastGuess = game.guessMaker();
                 numGuesses = 0;
-                upperBound = 1000;
-                lowerBound = 1;
-
-                lastGuess = (lowerBound + upperBound + 1) / 2;
                 guessMessage.setText("I guess " + lastGuess + ".");
             }
         });
     }
-
 }
