@@ -1,6 +1,3 @@
-import javax.swing.*;
-import java.util.List;
-
 public class CalculateTheResults {
     private int[] BIN_EDGES;
     private int numGames;
