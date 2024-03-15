@@ -31,7 +31,7 @@ public class CalculateTheResultsTest {
         calculateTheResults.updateResults(fakeStats, 0);
         assertEquals(15, calculateTheResults.getNumGames());
 
-
+        calculateTheResults.updateResults(fakeStats, 1);
+        assertEquals(20, calculateTheResults.getNumGames());
     }
-
 }

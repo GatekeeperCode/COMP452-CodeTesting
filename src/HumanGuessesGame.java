@@ -7,6 +7,7 @@ import java.util.Random;
  * NOTE: You can refactor and edit this file if needed
  */
 public class HumanGuessesGame {
+    // human guesses game have error handling if number is way out of bounds, use exceptions, then write tests for this file
     public final static int UPPER_BOUND = 1000;
 
     private final int target;
