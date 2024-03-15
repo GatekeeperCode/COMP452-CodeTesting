@@ -17,23 +17,24 @@ public class StatsPanel extends JPanel {
     private static final int [] BIN_EDGES = {1, 2, 4, 6, 8, 10, 12, 14};
     private ArrayList<JLabel> resultsLabels;
 
-    //Long Method, Could be shortened
     public StatsPanel(JPanel cardsPanel) {
+        GameStats stats = new StatsFile();
+        createLayout();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+        /*
         JLabel title = new JLabel("Your Stats");
         this.add(title);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         JLabel subtitle = new JLabel("(Past 30 Days)");
         this.add(subtitle);
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.add(Box.createRigidArea(new Dimension(0,40)));
+         */
 
         resultsPanel = new JPanel();
         resultsLabels = new ArrayList<>();
+
         resultsPanel.setLayout(new GridLayout(0, 2));
         resultsPanel.add(new JLabel("Guesses"));
         resultsPanel.add(new JLabel("Games"));
@@ -62,7 +63,7 @@ public class StatsPanel extends JPanel {
         resultsPanel.setMinimumSize(new Dimension(120, 120));
         this.add(resultsPanel);
         resultsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        updateResultsPanel();
+        updateResultsPanel(stats);
 
         this.add(Box.createVerticalGlue());
 
@@ -79,11 +80,44 @@ public class StatsPanel extends JPanel {
 
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent e) {
-                updateResultsPanel();
+                updateResultsPanel(stats);
             }
         });
     }
 
+    private void createLayout() {
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        addTitleAndSubtitle();
+        addSpacing(40); // number wolfe had originally
+//        initializeResultsPanel();
+
+    }
+
+    private void addTitleAndSubtitle() {
+        addLabel("Your Stats", Component.CENTER_ALIGNMENT);
+        addLabel("(Past 30 Days)", Component.CENTER_ALIGNMENT);
+    }
+
+    private void addLabel(String text, float alignment) {
+        JLabel label = new JLabel(text);
+        this.add(label);
+        label.setAlignmentX(alignment);
+    }
+
+    private void addSpacing(int size) {
+        this.add(Box.createRigidArea(new Dimension(0,size)));
+    }
+
+    private void initializeResultsPanel() {
+        //resultsPanel = createResultsPanel();
+    }
+
+    private JPanel createResultsPanel() {
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+        resultsLabels = new ArrayList<>();
+
+        return panel;
+    }
 
     private void clearResults(){
         for(JLabel lbl : resultsLabels){
@@ -91,32 +125,34 @@ public class StatsPanel extends JPanel {
         }
     }
 
-    //Duplicate Code
-    private void updateResultsPanel(){
+    private void updateResultsPanel(GameStats stats) {
         clearResults();
-
-        GameStats stats = new StatsFile();
 
         for(int binIndex=0; binIndex<BIN_EDGES.length; binIndex++){
             final int lowerBound = BIN_EDGES[binIndex];
-            int numGames = 0;
-
-            if(binIndex == BIN_EDGES.length-1){
-                // last bin
-                // Sum all the results from lowerBound on up
-                for(int numGuesses=lowerBound; numGuesses<stats.maxNumGuesses(); numGuesses++){
-                    numGames += stats.numGames(numGuesses);
-                }
-            }
-            else{
-                int upperBound = BIN_EDGES[binIndex+1];
-                for(int numGuesses=lowerBound; numGuesses <= upperBound; numGuesses++) {
-                    numGames += stats.numGames(numGuesses);
-                }
-            }
-
-            JLabel resultLabel = resultsLabels.get(binIndex);
-            resultLabel.setText(Integer.toString(numGames));
+            int numGames = calculateNumGames(stats, binIndex, lowerBound);
+            updateResultLabel(binIndex, numGames);
         }
+    }
+
+    private int calculateNumGames(GameStats stats, int binIndex, int lowerBound) {
+        int numGames = 0;
+        if (binIndex == BIN_EDGES.length - 1) {
+            for (int numGuesses = lowerBound; numGuesses < stats.maxNumGuesses(); numGuesses++) {
+                numGames += stats.numGames(numGuesses);
+            }
+        }
+        else {
+            int upperBound = BIN_EDGES[binIndex + 1];
+            for (int numGuesses = lowerBound; numGuesses <= upperBound; numGuesses++) {
+                numGames += stats.numGames(numGuesses);
+            }
+        }
+        return numGames;
+    }
+
+    private void updateResultLabel(int binIndex, int numGames) {
+        JLabel resultLabel = resultsLabels.get(binIndex);
+        resultLabel.setText(Integer.toString(numGames));
     }
 }
