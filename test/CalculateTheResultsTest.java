@@ -13,7 +13,7 @@ public class CalculateTheResultsTest {
         fakeStats = new GameStats() {
             @Override
             public int maxNumGuesses() {
-                return 1;
+                return 11;
             }
 
             @Override
@@ -27,11 +27,13 @@ public class CalculateTheResultsTest {
 
     @Test
     public void updateResultsTest() {
-        // still working on this
         calculateTheResults.updateResults(fakeStats, 0);
         assertEquals(15, calculateTheResults.getNumGames());
 
         calculateTheResults.updateResults(fakeStats, 1);
-        assertEquals(20, calculateTheResults.getNumGames());
+        assertEquals(45, calculateTheResults.getNumGames());
+
+        calculateTheResults.updateResults(fakeStats, 2);
+        assertEquals(10, calculateTheResults.getNumGames());
     }
 }
