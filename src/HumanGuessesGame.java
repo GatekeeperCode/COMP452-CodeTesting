@@ -18,7 +18,6 @@ public class HumanGuessesGame {
     HumanGuessesGame(){
         Random randGen = new Random();
         this.target = randGen.nextInt(UPPER_BOUND) + 1;
-
         numGuesses = 0;
         gameIsDone = false;
     }
@@ -31,16 +30,19 @@ public class HumanGuessesGame {
     }
 
     GuessResult makeGuess(int value){
-        numGuesses += 1;
+        if (value <= UPPER_BOUND && value >= 0) {
+            numGuesses += 1;
 
-        if(value < target){
-            return GuessResult.LOW;
-        }
-        if(value > target){
-            return GuessResult.HIGH;
-        }
+            if(value < target){
+                return GuessResult.LOW;
+            }
+            if(value > target){
+                return GuessResult.HIGH;
+            }
 
-        return GuessResult.CORRECT;
+            return GuessResult.CORRECT;
+        }
+        else throw new IllegalArgumentException("Invalid number");
     }
 
     int getNumGuesses(){

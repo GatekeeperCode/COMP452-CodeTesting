@@ -89,6 +89,7 @@ public class StatsPanel extends JPanel {
                 for (int binIndex = 0; binIndex < BIN_EDGES.length; binIndex++) {
                     clearResults();
                     calculateTheResults.updateResults(stats, binIndex);
+                    updateResultLabel(binIndex, calculateTheResults.getNumGames());
                 }
             }
         });
