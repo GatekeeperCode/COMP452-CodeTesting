@@ -65,10 +65,11 @@ public class StatsPanel extends JPanel {
         resultsPanel.setMinimumSize(new Dimension(120, 120));
         this.add(resultsPanel);
         resultsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+//        clearResults();
         for (int binIndex = 0; binIndex < BIN_EDGES.length; binIndex++) {
             calculateTheResults.updateResults(stats, binIndex);
             updateResultLabel(binIndex, calculateTheResults.getNumGames());
-            clearResults();
         }
 
         this.add(Box.createVerticalGlue());
@@ -86,10 +87,10 @@ public class StatsPanel extends JPanel {
 
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent e) {
+                clearResults();
                 for (int binIndex = 0; binIndex < BIN_EDGES.length; binIndex++) {
                     calculateTheResults.updateResults(stats, binIndex);
                     updateResultLabel(binIndex, calculateTheResults.getNumGames());
-//                    clearResults();
                 }
             }
         });
