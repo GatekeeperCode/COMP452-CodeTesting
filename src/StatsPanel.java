@@ -19,8 +19,6 @@ public class StatsPanel extends JPanel {
     private ArrayList<JLabel> resultsLabels;
 
     public StatsPanel(JPanel cardsPanel) {
-        GameStats stats = new StatsFile();
-
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         JLabel title = new JLabel("Your Stats");
@@ -66,8 +64,9 @@ public class StatsPanel extends JPanel {
         this.add(resultsPanel);
         resultsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-//        clearResults();
         for (int binIndex = 0; binIndex < BIN_EDGES.length; binIndex++) {
+            GameStats stats = new StatsFile();
+            clearResults();
             calculateTheResults.updateResults(stats, binIndex);
             updateResultLabel(binIndex, calculateTheResults.getNumGames());
         }
@@ -89,6 +88,7 @@ public class StatsPanel extends JPanel {
             public void componentShown(java.awt.event.ComponentEvent e) {
                 clearResults();
                 for (int binIndex = 0; binIndex < BIN_EDGES.length; binIndex++) {
+                    GameStats stats = new StatsFile();
                     calculateTheResults.updateResults(stats, binIndex);
                     updateResultLabel(binIndex, calculateTheResults.getNumGames());
                 }
